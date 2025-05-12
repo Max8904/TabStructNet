@@ -70,3 +70,24 @@ Please use this to cite our work:
 * Chi, Z., Huang, H., Xu, H.D., Yu, H., Yin, W., Mao, X.L.: Complicated table structure recognition. arXiv (2019)
 
 * Li, M., Cui, L., Huang, S., Wei, F., Zhou, M., Li, Z.: TableBank: Table benchmark for image-based table detection and recognition. In: ICDAR. (2019)
+
+
+## 環境版本問題處理
+方法一(舊版本環境：tensorflow==1.13.1)：  
+用 anaconda 安裝 python 3.6 版本，執行 conda create -n env_old python=3.6，避免和 tensorflow==1.13.1 的相容性問題  
+將 requirements.txt 的 opencv 版本改成 opencv-python==4.1.2.30，避免版本問題  
+安裝 pycocotools，執行 pip install pycocotools  
+最後問題：ERROR: Could not build wheels for pycocotools which use PEP 517 and cannot be installed directly  
+
+方法二(新版本環境)：  
+指定 Python 版本為 3.12，因 tensorflow 最新版不支援最新的 Python 版本  
+去除 requirements.txt 中所有的版本指定(tensorflow、keras)  
+降 numpy 版本到2.0 以下，執行 pip install numpy<2.0，因為和 imgaug 套件不相容  
+最後問題：ModuleNotFoundError: No module named 'keras.engine' => 需舊版 tensorflow(2.2)，python 版本(3.6)也需舊版  
+
+方法三(tensorflow==2.11.1)：  
+conda create -n env_2.11.1 python=3.9
+pip install numpy<2.0
+ModuleNotFoundError: No module named 'pycocotools' =>  pip install pycocotools
+ModuleNotFoundError: No module named 'mrcnn' =>  pip install mrcnn
+AttributeError: module 'keras.engine' has no attribute 'Layer'
